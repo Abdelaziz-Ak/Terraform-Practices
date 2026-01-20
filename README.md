@@ -15,6 +15,7 @@ This repository is a collection of Terraform practice exercises focused on provi
 - **terraform-ec2-task2/**: Another EC2 provisioning task, it's an extension of the first EC2 task for: generating SSH key pair, installing Nginx on it, creating a new Security Group allowing SSH + HTTP and tying the created EC2 to it.
 
 - **terraform-vpc-task/**: VPC setup including subnets (public and private), internet gateway, NAT gateway, route tables, and associations.
+  -**Note that:** **vpc-task** depends on the backend created from **terraform-backend** task, so you must apply the backend first then this **vpc-task**.
 
 - **terraform-modules-task/**: A collection of reusable Terraform modules for AWS VPC components, including:
   - Internet Gateway
