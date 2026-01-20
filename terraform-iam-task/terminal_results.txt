@@ -1,0 +1,1519 @@
+neo@Ubuntu-VM:~/Documents/terraform-tasks/terraform-iam-task$ tf init
+Initializing the backend...
+Initializing modules...
+Initializing provider plugins...
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using previously-installed hashicorp/aws v5.100.0
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+neo@Ubuntu-VM:~/Documents/terraform-tasks/terraform-iam-task$ tf plan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.iam.aws_iam_policy.dynamodb_read[0] will be created
+  + resource "aws_iam_policy" "dynamodb_read" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "Policy for DynamoDB read access"
+      + id               = (known after apply)
+      + name             = "DynamoDBReadPolicy"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "dynamodb:GetItem",
+                          + "dynamodb:BatchGetItem",
+                          + "dynamodb:Query",
+                          + "dynamodb:Scan",
+                          + "dynamodb:DescribeTable",
+                          + "dynamodb:ListTables",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "arn:aws:dynamodb:*:*:table/*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # module.iam.aws_iam_policy.ec2_admin[0] will be created
+  + resource "aws_iam_policy" "ec2_admin" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "Policy for EC2 admin access"
+      + id               = (known after apply)
+      + name             = "EC2AdminPolicy"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = "ec2:*"
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                  + {
+                      + Action   = [
+                          + "elasticloadbalancing:*",
+                          + "cloudwatch:*",
+                          + "autoscaling:*",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # module.iam.aws_iam_policy.ecs_read_write[0] will be created
+  + resource "aws_iam_policy" "ecs_read_write" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "Policy for ECS read and write access"
+      + id               = (known after apply)
+      + name             = "ECSReadWritePolicy"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "ecs:*",
+                          + "ecr:GetAuthorizationToken",
+                          + "ecr:BatchCheckLayerAvailability",
+                          + "ecr:GetDownloadUrlForLayer",
+                          + "ecr:BatchGetImage",
+                          + "logs:CreateLogStream",
+                          + "logs:PutLogEvents",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # module.iam.aws_iam_policy.rds_read_write[0] will be created
+  + resource "aws_iam_policy" "rds_read_write" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "Policy for RDS read and write access"
+      + id               = (known after apply)
+      + name             = "RDSReadWritePolicy"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "rds:Describe*",
+                          + "rds:List*",
+                          + "rds:CreateDBInstance",
+                          + "rds:ModifyDBInstance",
+                          + "rds:DeleteDBInstance",
+                          + "rds:CreateDBSnapshot",
+                          + "rds:DeleteDBSnapshot",
+                          + "rds:RestoreDBInstanceFromDBSnapshot",
+                          + "rds:AddTagsToResource",
+                          + "rds:RemoveTagsFromResource",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # module.iam.aws_iam_policy.s3_read_write[0] will be created
+  + resource "aws_iam_policy" "s3_read_write" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "Policy for S3 read and write access"
+      + id               = (known after apply)
+      + name             = "S3ReadWritePolicy"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "s3:GetObject",
+                          + "s3:PutObject",
+                          + "s3:DeleteObject",
+                          + "s3:ListBucket",
+                          + "s3:GetBucketLocation",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = [
+                          + "arn:aws:s3:::*",
+                          + "arn:aws:s3:::*/*",
+                        ]
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # module.iam.aws_iam_role.developer will be created
+  + resource "aws_iam_role" "developer" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = (known after apply)
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "DeveloperRole"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags                  = {
+          + "Name" = "DeveloperRole"
+        }
+      + tags_all              = {
+          + "Name" = "DeveloperRole"
+        }
+      + unique_id             = (known after apply)
+
+      + inline_policy (known after apply)
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.dynamodb_attach[0] will be created
+  + resource "aws_iam_role_policy_attachment" "dynamodb_attach" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "DeveloperRole"
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.ec2_attach[0] will be created
+  + resource "aws_iam_role_policy_attachment" "ec2_attach" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "DeveloperRole"
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.ecs_attach[0] will be created
+  + resource "aws_iam_role_policy_attachment" "ecs_attach" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "DeveloperRole"
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.rds_attach[0] will be created
+  + resource "aws_iam_role_policy_attachment" "rds_attach" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "DeveloperRole"
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.s3_attach[0] will be created
+  + resource "aws_iam_role_policy_attachment" "s3_attach" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "DeveloperRole"
+    }
+
+  # module.iam.aws_iam_user.users["developer1"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer1"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer1"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer1"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user.users["developer2"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer2"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer2"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer2"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user.users["developer3"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer3"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer3"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer3"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user.users["developer4"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer4"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer4"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer4"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user.users["developer5"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer5"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer5"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer5"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user.users["developer6"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer6"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer6"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer6"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer1"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer1"
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer2"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer2"
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer3"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer3"
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer4"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer4"
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer5"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer5"
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer6"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer6"
+    }
+
+Plan: 23 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + developer_role = (known after apply)
+  + iam_users      = [
+      + "developer1",
+      + "developer2",
+      + "developer3",
+      + "developer4",
+      + "developer5",
+      + "developer6",
+    ]
+  + policies       = {
+      + dynamodb_read  = (known after apply)
+      + ec2_admin      = (known after apply)
+      + ecs_read_write = (known after apply)
+      + rds_read_write = (known after apply)
+      + s3_read_write  = (known after apply)
+    }
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+neo@Ubuntu-VM:~/Documents/terraform-tasks/terraform-iam-task$ tf apply
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # module.iam.aws_iam_policy.dynamodb_read[0] will be created
+  + resource "aws_iam_policy" "dynamodb_read" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "Policy for DynamoDB read access"
+      + id               = (known after apply)
+      + name             = "DynamoDBReadPolicy"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "dynamodb:GetItem",
+                          + "dynamodb:BatchGetItem",
+                          + "dynamodb:Query",
+                          + "dynamodb:Scan",
+                          + "dynamodb:DescribeTable",
+                          + "dynamodb:ListTables",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "arn:aws:dynamodb:*:*:table/*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # module.iam.aws_iam_policy.ec2_admin[0] will be created
+  + resource "aws_iam_policy" "ec2_admin" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "Policy for EC2 admin access"
+      + id               = (known after apply)
+      + name             = "EC2AdminPolicy"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = "ec2:*"
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                  + {
+                      + Action   = [
+                          + "elasticloadbalancing:*",
+                          + "cloudwatch:*",
+                          + "autoscaling:*",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # module.iam.aws_iam_policy.ecs_read_write[0] will be created
+  + resource "aws_iam_policy" "ecs_read_write" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "Policy for ECS read and write access"
+      + id               = (known after apply)
+      + name             = "ECSReadWritePolicy"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "ecs:*",
+                          + "ecr:GetAuthorizationToken",
+                          + "ecr:BatchCheckLayerAvailability",
+                          + "ecr:GetDownloadUrlForLayer",
+                          + "ecr:BatchGetImage",
+                          + "logs:CreateLogStream",
+                          + "logs:PutLogEvents",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # module.iam.aws_iam_policy.rds_read_write[0] will be created
+  + resource "aws_iam_policy" "rds_read_write" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "Policy for RDS read and write access"
+      + id               = (known after apply)
+      + name             = "RDSReadWritePolicy"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "rds:Describe*",
+                          + "rds:List*",
+                          + "rds:CreateDBInstance",
+                          + "rds:ModifyDBInstance",
+                          + "rds:DeleteDBInstance",
+                          + "rds:CreateDBSnapshot",
+                          + "rds:DeleteDBSnapshot",
+                          + "rds:RestoreDBInstanceFromDBSnapshot",
+                          + "rds:AddTagsToResource",
+                          + "rds:RemoveTagsFromResource",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "*"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # module.iam.aws_iam_policy.s3_read_write[0] will be created
+  + resource "aws_iam_policy" "s3_read_write" {
+      + arn              = (known after apply)
+      + attachment_count = (known after apply)
+      + description      = "Policy for S3 read and write access"
+      + id               = (known after apply)
+      + name             = "S3ReadWritePolicy"
+      + name_prefix      = (known after apply)
+      + path             = "/"
+      + policy           = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "s3:GetObject",
+                          + "s3:PutObject",
+                          + "s3:DeleteObject",
+                          + "s3:ListBucket",
+                          + "s3:GetBucketLocation",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = [
+                          + "arn:aws:s3:::*",
+                          + "arn:aws:s3:::*/*",
+                        ]
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + policy_id        = (known after apply)
+      + tags_all         = (known after apply)
+    }
+
+  # module.iam.aws_iam_role.developer will be created
+  + resource "aws_iam_role" "developer" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = (known after apply)
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "DeveloperRole"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags                  = {
+          + "Name" = "DeveloperRole"
+        }
+      + tags_all              = {
+          + "Name" = "DeveloperRole"
+        }
+      + unique_id             = (known after apply)
+
+      + inline_policy (known after apply)
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.dynamodb_attach[0] will be created
+  + resource "aws_iam_role_policy_attachment" "dynamodb_attach" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "DeveloperRole"
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.ec2_attach[0] will be created
+  + resource "aws_iam_role_policy_attachment" "ec2_attach" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "DeveloperRole"
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.ecs_attach[0] will be created
+  + resource "aws_iam_role_policy_attachment" "ecs_attach" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "DeveloperRole"
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.rds_attach[0] will be created
+  + resource "aws_iam_role_policy_attachment" "rds_attach" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "DeveloperRole"
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.s3_attach[0] will be created
+  + resource "aws_iam_role_policy_attachment" "s3_attach" {
+      + id         = (known after apply)
+      + policy_arn = (known after apply)
+      + role       = "DeveloperRole"
+    }
+
+  # module.iam.aws_iam_user.users["developer1"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer1"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer1"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer1"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user.users["developer2"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer2"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer2"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer2"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user.users["developer3"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer3"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer3"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer3"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user.users["developer4"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer4"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer4"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer4"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user.users["developer5"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer5"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer5"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer5"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user.users["developer6"] will be created
+  + resource "aws_iam_user" "users" {
+      + arn           = (known after apply)
+      + force_destroy = false
+      + id            = (known after apply)
+      + name          = "developer6"
+      + path          = "/"
+      + tags          = {
+          + "Environment" = "Development"
+          + "Name"        = "developer6"
+        }
+      + tags_all      = {
+          + "Environment" = "Development"
+          + "Name"        = "developer6"
+        }
+      + unique_id     = (known after apply)
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer1"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer1"
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer2"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer2"
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer3"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer3"
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer4"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer4"
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer5"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer5"
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer6"] will be created
+  + resource "aws_iam_user_policy" "assume_role" {
+      + id          = (known after apply)
+      + name        = "AssumeRolePolicy"
+      + name_prefix = (known after apply)
+      + policy      = (known after apply)
+      + user        = "developer6"
+    }
+
+Plan: 23 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + developer_role = (known after apply)
+  + iam_users      = [
+      + "developer1",
+      + "developer2",
+      + "developer3",
+      + "developer4",
+      + "developer5",
+      + "developer6",
+    ]
+  + policies       = {
+      + dynamodb_read  = (known after apply)
+      + ec2_admin      = (known after apply)
+      + ecs_read_write = (known after apply)
+      + rds_read_write = (known after apply)
+      + s3_read_write  = (known after apply)
+    }
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+module.iam.aws_iam_policy.s3_read_write[0]: Creating...
+module.iam.aws_iam_user.users["developer4"]: Creating...
+module.iam.aws_iam_user.users["developer1"]: Creating...
+module.iam.aws_iam_policy.ecs_read_write[0]: Creating...
+module.iam.aws_iam_user.users["developer3"]: Creating...
+module.iam.aws_iam_user.users["developer6"]: Creating...
+module.iam.aws_iam_policy.rds_read_write[0]: Creating...
+module.iam.aws_iam_user.users["developer2"]: Creating...
+module.iam.aws_iam_policy.dynamodb_read[0]: Creating...
+module.iam.aws_iam_policy.ec2_admin[0]: Creating...
+module.iam.aws_iam_user.users["developer3"]: Creation complete after 1s [id=developer3]
+module.iam.aws_iam_user.users["developer2"]: Creation complete after 1s [id=developer2]
+module.iam.aws_iam_user.users["developer6"]: Creation complete after 1s [id=developer6]
+module.iam.aws_iam_user.users["developer5"]: Creating...
+module.iam.aws_iam_user.users["developer1"]: Creation complete after 1s [id=developer1]
+module.iam.aws_iam_policy.ec2_admin[0]: Creation complete after 1s [id=arn:aws:iam::951637587834:policy/EC2AdminPolicy]
+module.iam.aws_iam_policy.rds_read_write[0]: Creation complete after 1s [id=arn:aws:iam::951637587834:policy/RDSReadWritePolicy]
+module.iam.aws_iam_policy.s3_read_write[0]: Creation complete after 1s [id=arn:aws:iam::951637587834:policy/S3ReadWritePolicy]
+module.iam.aws_iam_policy.ecs_read_write[0]: Creation complete after 1s [id=arn:aws:iam::951637587834:policy/ECSReadWritePolicy]
+module.iam.aws_iam_policy.dynamodb_read[0]: Creation complete after 1s [id=arn:aws:iam::951637587834:policy/DynamoDBReadPolicy]
+module.iam.aws_iam_user.users["developer5"]: Creation complete after 0s [id=developer5]
+module.iam.aws_iam_user.users["developer4"]: Creation complete after 2s [id=developer4]
+module.iam.aws_iam_role.developer: Creating...
+module.iam.aws_iam_role.developer: Creation complete after 9s [id=DeveloperRole]
+module.iam.aws_iam_role_policy_attachment.s3_attach[0]: Creating...
+module.iam.aws_iam_role_policy_attachment.rds_attach[0]: Creating...
+module.iam.aws_iam_role_policy_attachment.dynamodb_attach[0]: Creating...
+module.iam.aws_iam_user_policy.assume_role["developer3"]: Creating...
+module.iam.aws_iam_user_policy.assume_role["developer1"]: Creating...
+module.iam.aws_iam_role_policy_attachment.ecs_attach[0]: Creating...
+module.iam.aws_iam_role_policy_attachment.ec2_attach[0]: Creating...
+module.iam.aws_iam_user_policy.assume_role["developer4"]: Creating...
+module.iam.aws_iam_user_policy.assume_role["developer2"]: Creating...
+module.iam.aws_iam_user_policy.assume_role["developer6"]: Creating...
+module.iam.aws_iam_role_policy_attachment.s3_attach[0]: Creation complete after 0s [id=DeveloperRole-20260120180519098600000001]
+module.iam.aws_iam_user_policy.assume_role["developer5"]: Creating...
+module.iam.aws_iam_role_policy_attachment.dynamodb_attach[0]: Creation complete after 1s [id=DeveloperRole-20260120180519190900000002]
+module.iam.aws_iam_role_policy_attachment.ecs_attach[0]: Creation complete after 1s [id=DeveloperRole-20260120180519387900000004]
+module.iam.aws_iam_user_policy.assume_role["developer1"]: Creation complete after 1s [id=developer1:AssumeRolePolicy]
+module.iam.aws_iam_role_policy_attachment.rds_attach[0]: Creation complete after 1s [id=DeveloperRole-20260120180519193700000003]
+module.iam.aws_iam_user_policy.assume_role["developer6"]: Creation complete after 1s [id=developer6:AssumeRolePolicy]
+module.iam.aws_iam_user_policy.assume_role["developer4"]: Creation complete after 1s [id=developer4:AssumeRolePolicy]
+module.iam.aws_iam_user_policy.assume_role["developer2"]: Creation complete after 1s [id=developer2:AssumeRolePolicy]
+module.iam.aws_iam_user_policy.assume_role["developer3"]: Creation complete after 1s [id=developer3:AssumeRolePolicy]
+module.iam.aws_iam_user_policy.assume_role["developer5"]: Creation complete after 1s [id=developer5:AssumeRolePolicy]
+module.iam.aws_iam_role_policy_attachment.ec2_attach[0]: Creation complete after 1s [id=DeveloperRole-20260120180520126700000005]
+
+Apply complete! Resources: 23 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+developer_role = "arn:aws:iam::951637587834:role/DeveloperRole"
+iam_users = [
+  "developer1",
+  "developer2",
+  "developer3",
+  "developer4",
+  "developer5",
+  "developer6",
+]
+policies = tomap({
+  "dynamodb_read" = "arn:aws:iam::951637587834:policy/DynamoDBReadPolicy"
+  "ec2_admin" = "arn:aws:iam::951637587834:policy/EC2AdminPolicy"
+  "ecs_read_write" = "arn:aws:iam::951637587834:policy/ECSReadWritePolicy"
+  "rds_read_write" = "arn:aws:iam::951637587834:policy/RDSReadWritePolicy"
+  "s3_read_write" = "arn:aws:iam::951637587834:policy/S3ReadWritePolicy"
+})
+neo@Ubuntu-VM:~/Documents/terraform-tasks/terraform-iam-task$ tf destroy
+module.iam.aws_iam_user.users["developer4"]: Refreshing state... [id=developer4]
+module.iam.aws_iam_user.users["developer5"]: Refreshing state... [id=developer5]
+module.iam.aws_iam_policy.ecs_read_write[0]: Refreshing state... [id=arn:aws:iam::951637587834:policy/ECSReadWritePolicy]
+module.iam.aws_iam_policy.s3_read_write[0]: Refreshing state... [id=arn:aws:iam::951637587834:policy/S3ReadWritePolicy]
+module.iam.aws_iam_user.users["developer2"]: Refreshing state... [id=developer2]
+module.iam.aws_iam_user.users["developer6"]: Refreshing state... [id=developer6]
+module.iam.aws_iam_user.users["developer1"]: Refreshing state... [id=developer1]
+module.iam.aws_iam_policy.ec2_admin[0]: Refreshing state... [id=arn:aws:iam::951637587834:policy/EC2AdminPolicy]
+module.iam.aws_iam_policy.dynamodb_read[0]: Refreshing state... [id=arn:aws:iam::951637587834:policy/DynamoDBReadPolicy]
+module.iam.aws_iam_user.users["developer3"]: Refreshing state... [id=developer3]
+module.iam.aws_iam_policy.rds_read_write[0]: Refreshing state... [id=arn:aws:iam::951637587834:policy/RDSReadWritePolicy]
+module.iam.aws_iam_role.developer: Refreshing state... [id=DeveloperRole]
+module.iam.aws_iam_role_policy_attachment.ecs_attach[0]: Refreshing state... [id=DeveloperRole-20260120180519387900000004]
+module.iam.aws_iam_user_policy.assume_role["developer2"]: Refreshing state... [id=developer2:AssumeRolePolicy]
+module.iam.aws_iam_role_policy_attachment.ec2_attach[0]: Refreshing state... [id=DeveloperRole-20260120180520126700000005]
+module.iam.aws_iam_role_policy_attachment.s3_attach[0]: Refreshing state... [id=DeveloperRole-20260120180519098600000001]
+module.iam.aws_iam_user_policy.assume_role["developer4"]: Refreshing state... [id=developer4:AssumeRolePolicy]
+module.iam.aws_iam_user_policy.assume_role["developer5"]: Refreshing state... [id=developer5:AssumeRolePolicy]
+module.iam.aws_iam_role_policy_attachment.rds_attach[0]: Refreshing state... [id=DeveloperRole-20260120180519193700000003]
+module.iam.aws_iam_role_policy_attachment.dynamodb_attach[0]: Refreshing state... [id=DeveloperRole-20260120180519190900000002]
+module.iam.aws_iam_user_policy.assume_role["developer6"]: Refreshing state... [id=developer6:AssumeRolePolicy]
+module.iam.aws_iam_user_policy.assume_role["developer1"]: Refreshing state... [id=developer1:AssumeRolePolicy]
+module.iam.aws_iam_user_policy.assume_role["developer3"]: Refreshing state... [id=developer3:AssumeRolePolicy]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # module.iam.aws_iam_policy.dynamodb_read[0] will be destroyed
+  - resource "aws_iam_policy" "dynamodb_read" {
+      - arn              = "arn:aws:iam::951637587834:policy/DynamoDBReadPolicy" -> null
+      - attachment_count = 1 -> null
+      - description      = "Policy for DynamoDB read access" -> null
+      - id               = "arn:aws:iam::951637587834:policy/DynamoDBReadPolicy" -> null
+      - name             = "DynamoDBReadPolicy" -> null
+      - path             = "/" -> null
+      - policy           = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "dynamodb:GetItem",
+                          - "dynamodb:BatchGetItem",
+                          - "dynamodb:Query",
+                          - "dynamodb:Scan",
+                          - "dynamodb:DescribeTable",
+                          - "dynamodb:ListTables",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:dynamodb:*:*:table/*"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - policy_id        = "ANPA53EQFG55MIROEQVGB" -> null
+      - tags             = {} -> null
+      - tags_all         = {} -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_policy.ec2_admin[0] will be destroyed
+  - resource "aws_iam_policy" "ec2_admin" {
+      - arn              = "arn:aws:iam::951637587834:policy/EC2AdminPolicy" -> null
+      - attachment_count = 1 -> null
+      - description      = "Policy for EC2 admin access" -> null
+      - id               = "arn:aws:iam::951637587834:policy/EC2AdminPolicy" -> null
+      - name             = "EC2AdminPolicy" -> null
+      - path             = "/" -> null
+      - policy           = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = "ec2:*"
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                  - {
+                      - Action   = [
+                          - "elasticloadbalancing:*",
+                          - "cloudwatch:*",
+                          - "autoscaling:*",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - policy_id        = "ANPA53EQFG55IGLZ4STKH" -> null
+      - tags             = {} -> null
+      - tags_all         = {} -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_policy.ecs_read_write[0] will be destroyed
+  - resource "aws_iam_policy" "ecs_read_write" {
+      - arn              = "arn:aws:iam::951637587834:policy/ECSReadWritePolicy" -> null
+      - attachment_count = 1 -> null
+      - description      = "Policy for ECS read and write access" -> null
+      - id               = "arn:aws:iam::951637587834:policy/ECSReadWritePolicy" -> null
+      - name             = "ECSReadWritePolicy" -> null
+      - path             = "/" -> null
+      - policy           = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "ecs:*",
+                          - "ecr:GetAuthorizationToken",
+                          - "ecr:BatchCheckLayerAvailability",
+                          - "ecr:GetDownloadUrlForLayer",
+                          - "ecr:BatchGetImage",
+                          - "logs:CreateLogStream",
+                          - "logs:PutLogEvents",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - policy_id        = "ANPA53EQFG55CXVUJ3CMJ" -> null
+      - tags             = {} -> null
+      - tags_all         = {} -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_policy.rds_read_write[0] will be destroyed
+  - resource "aws_iam_policy" "rds_read_write" {
+      - arn              = "arn:aws:iam::951637587834:policy/RDSReadWritePolicy" -> null
+      - attachment_count = 1 -> null
+      - description      = "Policy for RDS read and write access" -> null
+      - id               = "arn:aws:iam::951637587834:policy/RDSReadWritePolicy" -> null
+      - name             = "RDSReadWritePolicy" -> null
+      - path             = "/" -> null
+      - policy           = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "rds:Describe*",
+                          - "rds:List*",
+                          - "rds:CreateDBInstance",
+                          - "rds:ModifyDBInstance",
+                          - "rds:DeleteDBInstance",
+                          - "rds:CreateDBSnapshot",
+                          - "rds:DeleteDBSnapshot",
+                          - "rds:RestoreDBInstanceFromDBSnapshot",
+                          - "rds:AddTagsToResource",
+                          - "rds:RemoveTagsFromResource",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - policy_id        = "ANPA53EQFG55DDUYTFACB" -> null
+      - tags             = {} -> null
+      - tags_all         = {} -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_policy.s3_read_write[0] will be destroyed
+  - resource "aws_iam_policy" "s3_read_write" {
+      - arn              = "arn:aws:iam::951637587834:policy/S3ReadWritePolicy" -> null
+      - attachment_count = 1 -> null
+      - description      = "Policy for S3 read and write access" -> null
+      - id               = "arn:aws:iam::951637587834:policy/S3ReadWritePolicy" -> null
+      - name             = "S3ReadWritePolicy" -> null
+      - path             = "/" -> null
+      - policy           = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "s3:GetObject",
+                          - "s3:PutObject",
+                          - "s3:DeleteObject",
+                          - "s3:ListBucket",
+                          - "s3:GetBucketLocation",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:s3:::*",
+                          - "arn:aws:s3:::*/*",
+                        ]
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - policy_id        = "ANPA53EQFG55ICBKGGYH4" -> null
+      - tags             = {} -> null
+      - tags_all         = {} -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_role.developer will be destroyed
+  - resource "aws_iam_role" "developer" {
+      - arn                   = "arn:aws:iam::951637587834:role/DeveloperRole" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - AWS = [
+                              - "arn:aws:iam::951637587834:user/developer1",
+                              - "arn:aws:iam::951637587834:user/developer2",
+                              - "arn:aws:iam::951637587834:user/developer3",
+                              - "arn:aws:iam::951637587834:user/developer4",
+                              - "arn:aws:iam::951637587834:user/developer5",
+                              - "arn:aws:iam::951637587834:user/developer6",
+                            ]
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-01-20T18:05:18Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "DeveloperRole" -> null
+      - managed_policy_arns   = [
+          - "arn:aws:iam::951637587834:policy/DynamoDBReadPolicy",
+          - "arn:aws:iam::951637587834:policy/EC2AdminPolicy",
+          - "arn:aws:iam::951637587834:policy/ECSReadWritePolicy",
+          - "arn:aws:iam::951637587834:policy/RDSReadWritePolicy",
+          - "arn:aws:iam::951637587834:policy/S3ReadWritePolicy",
+        ] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "DeveloperRole" -> null
+      - path                  = "/" -> null
+      - tags                  = {
+          - "Name" = "DeveloperRole"
+        } -> null
+      - tags_all              = {
+          - "Name" = "DeveloperRole"
+        } -> null
+      - unique_id             = "AROA53EQFG55LFEPIXWAT" -> null
+        # (3 unchanged attributes hidden)
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.dynamodb_attach[0] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "dynamodb_attach" {
+      - id         = "DeveloperRole-20260120180519190900000002" -> null
+      - policy_arn = "arn:aws:iam::951637587834:policy/DynamoDBReadPolicy" -> null
+      - role       = "DeveloperRole" -> null
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.ec2_attach[0] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "ec2_attach" {
+      - id         = "DeveloperRole-20260120180520126700000005" -> null
+      - policy_arn = "arn:aws:iam::951637587834:policy/EC2AdminPolicy" -> null
+      - role       = "DeveloperRole" -> null
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.ecs_attach[0] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "ecs_attach" {
+      - id         = "DeveloperRole-20260120180519387900000004" -> null
+      - policy_arn = "arn:aws:iam::951637587834:policy/ECSReadWritePolicy" -> null
+      - role       = "DeveloperRole" -> null
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.rds_attach[0] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "rds_attach" {
+      - id         = "DeveloperRole-20260120180519193700000003" -> null
+      - policy_arn = "arn:aws:iam::951637587834:policy/RDSReadWritePolicy" -> null
+      - role       = "DeveloperRole" -> null
+    }
+
+  # module.iam.aws_iam_role_policy_attachment.s3_attach[0] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "s3_attach" {
+      - id         = "DeveloperRole-20260120180519098600000001" -> null
+      - policy_arn = "arn:aws:iam::951637587834:policy/S3ReadWritePolicy" -> null
+      - role       = "DeveloperRole" -> null
+    }
+
+  # module.iam.aws_iam_user.users["developer1"] will be destroyed
+  - resource "aws_iam_user" "users" {
+      - arn                  = "arn:aws:iam::951637587834:user/developer1" -> null
+      - force_destroy        = false -> null
+      - id                   = "developer1" -> null
+      - name                 = "developer1" -> null
+      - path                 = "/" -> null
+      - tags                 = {
+          - "Environment" = "Development"
+          - "Name"        = "developer1"
+        } -> null
+      - tags_all             = {
+          - "Environment" = "Development"
+          - "Name"        = "developer1"
+        } -> null
+      - unique_id            = "AIDA53EQFG55AIYJD24L7" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_user.users["developer2"] will be destroyed
+  - resource "aws_iam_user" "users" {
+      - arn                  = "arn:aws:iam::951637587834:user/developer2" -> null
+      - force_destroy        = false -> null
+      - id                   = "developer2" -> null
+      - name                 = "developer2" -> null
+      - path                 = "/" -> null
+      - tags                 = {
+          - "Environment" = "Development"
+          - "Name"        = "developer2"
+        } -> null
+      - tags_all             = {
+          - "Environment" = "Development"
+          - "Name"        = "developer2"
+        } -> null
+      - unique_id            = "AIDA53EQFG55HI4D5YRBI" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_user.users["developer3"] will be destroyed
+  - resource "aws_iam_user" "users" {
+      - arn                  = "arn:aws:iam::951637587834:user/developer3" -> null
+      - force_destroy        = false -> null
+      - id                   = "developer3" -> null
+      - name                 = "developer3" -> null
+      - path                 = "/" -> null
+      - tags                 = {
+          - "Environment" = "Development"
+          - "Name"        = "developer3"
+        } -> null
+      - tags_all             = {
+          - "Environment" = "Development"
+          - "Name"        = "developer3"
+        } -> null
+      - unique_id            = "AIDA53EQFG55KWADVPVNK" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_user.users["developer4"] will be destroyed
+  - resource "aws_iam_user" "users" {
+      - arn                  = "arn:aws:iam::951637587834:user/developer4" -> null
+      - force_destroy        = false -> null
+      - id                   = "developer4" -> null
+      - name                 = "developer4" -> null
+      - path                 = "/" -> null
+      - tags                 = {
+          - "Environment" = "Development"
+          - "Name"        = "developer4"
+        } -> null
+      - tags_all             = {
+          - "Environment" = "Development"
+          - "Name"        = "developer4"
+        } -> null
+      - unique_id            = "AIDA53EQFG55HOSTSWLMM" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_user.users["developer5"] will be destroyed
+  - resource "aws_iam_user" "users" {
+      - arn                  = "arn:aws:iam::951637587834:user/developer5" -> null
+      - force_destroy        = false -> null
+      - id                   = "developer5" -> null
+      - name                 = "developer5" -> null
+      - path                 = "/" -> null
+      - tags                 = {
+          - "Environment" = "Development"
+          - "Name"        = "developer5"
+        } -> null
+      - tags_all             = {
+          - "Environment" = "Development"
+          - "Name"        = "developer5"
+        } -> null
+      - unique_id            = "AIDA53EQFG55HF4CNFXFC" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_user.users["developer6"] will be destroyed
+  - resource "aws_iam_user" "users" {
+      - arn                  = "arn:aws:iam::951637587834:user/developer6" -> null
+      - force_destroy        = false -> null
+      - id                   = "developer6" -> null
+      - name                 = "developer6" -> null
+      - path                 = "/" -> null
+      - tags                 = {
+          - "Environment" = "Development"
+          - "Name"        = "developer6"
+        } -> null
+      - tags_all             = {
+          - "Environment" = "Development"
+          - "Name"        = "developer6"
+        } -> null
+      - unique_id            = "AIDA53EQFG55IJMUQM2I3" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer1"] will be destroyed
+  - resource "aws_iam_user_policy" "assume_role" {
+      - id          = "developer1:AssumeRolePolicy" -> null
+      - name        = "AssumeRolePolicy" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = "sts:AssumeRole"
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:iam::951637587834:role/DeveloperRole"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - user        = "developer1" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer2"] will be destroyed
+  - resource "aws_iam_user_policy" "assume_role" {
+      - id          = "developer2:AssumeRolePolicy" -> null
+      - name        = "AssumeRolePolicy" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = "sts:AssumeRole"
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:iam::951637587834:role/DeveloperRole"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - user        = "developer2" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer3"] will be destroyed
+  - resource "aws_iam_user_policy" "assume_role" {
+      - id          = "developer3:AssumeRolePolicy" -> null
+      - name        = "AssumeRolePolicy" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = "sts:AssumeRole"
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:iam::951637587834:role/DeveloperRole"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - user        = "developer3" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer4"] will be destroyed
+  - resource "aws_iam_user_policy" "assume_role" {
+      - id          = "developer4:AssumeRolePolicy" -> null
+      - name        = "AssumeRolePolicy" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = "sts:AssumeRole"
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:iam::951637587834:role/DeveloperRole"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - user        = "developer4" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer5"] will be destroyed
+  - resource "aws_iam_user_policy" "assume_role" {
+      - id          = "developer5:AssumeRolePolicy" -> null
+      - name        = "AssumeRolePolicy" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = "sts:AssumeRole"
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:iam::951637587834:role/DeveloperRole"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - user        = "developer5" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.iam.aws_iam_user_policy.assume_role["developer6"] will be destroyed
+  - resource "aws_iam_user_policy" "assume_role" {
+      - id          = "developer6:AssumeRolePolicy" -> null
+      - name        = "AssumeRolePolicy" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = "sts:AssumeRole"
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:iam::951637587834:role/DeveloperRole"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - user        = "developer6" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+Plan: 0 to add, 0 to change, 23 to destroy.
+
+Changes to Outputs:
+  - developer_role = "arn:aws:iam::951637587834:role/DeveloperRole" -> null
+  - iam_users      = [
+      - "developer1",
+      - "developer2",
+      - "developer3",
+      - "developer4",
+      - "developer5",
+      - "developer6",
+    ] -> null
+  - policies       = {
+      - dynamodb_read  = "arn:aws:iam::951637587834:policy/DynamoDBReadPolicy"
+      - ec2_admin      = "arn:aws:iam::951637587834:policy/EC2AdminPolicy"
+      - ecs_read_write = "arn:aws:iam::951637587834:policy/ECSReadWritePolicy"
+      - rds_read_write = "arn:aws:iam::951637587834:policy/RDSReadWritePolicy"
+      - s3_read_write  = "arn:aws:iam::951637587834:policy/S3ReadWritePolicy"
+    } -> null
+
+Do you really want to destroy all resources?
+  Terraform will destroy all your managed infrastructure, as shown above.
+  There is no undo. Only 'yes' will be accepted to confirm.
+
+  Enter a value: yes
+
+module.iam.aws_iam_user_policy.assume_role["developer3"]: Destroying... [id=developer3:AssumeRolePolicy]
+module.iam.aws_iam_role_policy_attachment.s3_attach[0]: Destroying... [id=DeveloperRole-20260120180519098600000001]
+module.iam.aws_iam_role_policy_attachment.rds_attach[0]: Destroying... [id=DeveloperRole-20260120180519193700000003]
+module.iam.aws_iam_user_policy.assume_role["developer6"]: Destroying... [id=developer6:AssumeRolePolicy]
+module.iam.aws_iam_user_policy.assume_role["developer2"]: Destroying... [id=developer2:AssumeRolePolicy]
+module.iam.aws_iam_role_policy_attachment.ecs_attach[0]: Destroying... [id=DeveloperRole-20260120180519387900000004]
+module.iam.aws_iam_user_policy.assume_role["developer4"]: Destroying... [id=developer4:AssumeRolePolicy]
+module.iam.aws_iam_user_policy.assume_role["developer5"]: Destroying... [id=developer5:AssumeRolePolicy]
+module.iam.aws_iam_role_policy_attachment.ec2_attach[0]: Destroying... [id=DeveloperRole-20260120180520126700000005]
+module.iam.aws_iam_role_policy_attachment.dynamodb_attach[0]: Destroying... [id=DeveloperRole-20260120180519190900000002]
+module.iam.aws_iam_user_policy.assume_role["developer5"]: Destruction complete after 0s
+module.iam.aws_iam_user_policy.assume_role["developer2"]: Destruction complete after 0s
+module.iam.aws_iam_user_policy.assume_role["developer1"]: Destroying... [id=developer1:AssumeRolePolicy]
+module.iam.aws_iam_role_policy_attachment.s3_attach[0]: Destruction complete after 0s
+module.iam.aws_iam_role_policy_attachment.ec2_attach[0]: Destruction complete after 0s
+module.iam.aws_iam_policy.ec2_admin[0]: Destroying... [id=arn:aws:iam::951637587834:policy/EC2AdminPolicy]
+module.iam.aws_iam_role_policy_attachment.rds_attach[0]: Destruction complete after 0s
+module.iam.aws_iam_policy.s3_read_write[0]: Destroying... [id=arn:aws:iam::951637587834:policy/S3ReadWritePolicy]
+module.iam.aws_iam_role_policy_attachment.ecs_attach[0]: Destruction complete after 0s
+module.iam.aws_iam_policy.rds_read_write[0]: Destroying... [id=arn:aws:iam::951637587834:policy/RDSReadWritePolicy]
+module.iam.aws_iam_user_policy.assume_role["developer3"]: Destruction complete after 0s
+module.iam.aws_iam_policy.ecs_read_write[0]: Destroying... [id=arn:aws:iam::951637587834:policy/ECSReadWritePolicy]
+module.iam.aws_iam_role_policy_attachment.dynamodb_attach[0]: Destruction complete after 0s
+module.iam.aws_iam_user_policy.assume_role["developer6"]: Destruction complete after 0s
+module.iam.aws_iam_user_policy.assume_role["developer4"]: Destruction complete after 0s
+module.iam.aws_iam_policy.dynamodb_read[0]: Destroying... [id=arn:aws:iam::951637587834:policy/DynamoDBReadPolicy]
+module.iam.aws_iam_user_policy.assume_role["developer1"]: Destruction complete after 1s
+module.iam.aws_iam_role.developer: Destroying... [id=DeveloperRole]
+module.iam.aws_iam_policy.rds_read_write[0]: Destruction complete after 1s
+module.iam.aws_iam_policy.ec2_admin[0]: Destruction complete after 1s
+module.iam.aws_iam_policy.ecs_read_write[0]: Destruction complete after 1s
+module.iam.aws_iam_policy.dynamodb_read[0]: Destruction complete after 0s
+module.iam.aws_iam_policy.s3_read_write[0]: Destruction complete after 1s
+module.iam.aws_iam_role.developer: Destruction complete after 0s
+module.iam.aws_iam_user.users["developer3"]: Destroying... [id=developer3]
+module.iam.aws_iam_user.users["developer1"]: Destroying... [id=developer1]
+module.iam.aws_iam_user.users["developer5"]: Destroying... [id=developer5]
+module.iam.aws_iam_user.users["developer4"]: Destroying... [id=developer4]
+module.iam.aws_iam_user.users["developer6"]: Destroying... [id=developer6]
+module.iam.aws_iam_user.users["developer2"]: Destroying... [id=developer2]
+module.iam.aws_iam_user.users["developer3"]: Destruction complete after 1s
+module.iam.aws_iam_user.users["developer6"]: Destruction complete after 1s
+module.iam.aws_iam_user.users["developer2"]: Destruction complete after 1s
+module.iam.aws_iam_user.users["developer5"]: Destruction complete after 1s
+module.iam.aws_iam_user.users["developer1"]: Destruction complete after 1s
+module.iam.aws_iam_user.users["developer4"]: Destruction complete after 1s
+
+Destroy complete! Resources: 23 destroyed.
+neo@Ubuntu-VM:~/Documents/terraform-tasks/terraform-iam-task$ 
